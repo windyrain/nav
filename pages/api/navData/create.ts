@@ -20,7 +20,6 @@ type ResData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResData>) {
-    const departments = navData.map((item) => item.name);
     const { type, departmentName, categoryName, navName, navUrl, navUrls } = req.body as ReqBody;
 
     if (typeof type === 'undefined') {
@@ -42,6 +41,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function createDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, departmentName: string = '') {
+    const departments = navData.map((item) => item.name);
+
     if (!departmentName) {
         res.status(200).json({ code: -1, message: '部门名称为空，创建失败' });
         return;
@@ -84,7 +85,7 @@ function createCategory(
     const index = navData.findIndex(({ name }) => name === departmentName);
 
     if (index === -1) {
-        res.status(200).json({ code: -1, message: '部门不存在' });
+        res.status(200).json({ code: -1, message: '部门名称不存在，创建失败' });
         return;
     }
 

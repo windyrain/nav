@@ -39,23 +39,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function deleteDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, departmentName: string = '') {
-    const departments = navData.map((item) => item.name);
+    const departmentIndex = navData.findIndex(({ name }) => name === departmentName);
 
-    if (!departments.includes(departmentName)) {
+    if (departmentIndex === -1) {
         res.status(200).json({ code: -1, message: '部门名称不存在，删除失败' });
         return;
     }
 
-    departments.push(departmentName);
-
-    navData.push({ name: departmentName, categorys: [] });
+    navData.splice(departmentIndex, 1);
 
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
-    res.status(200).json({ code: 0, message: '创建成功' });
+    res.status(200).json({ code: 0, message: '删除成功' });
 }
 
-function createCategory(
+function deleteCategory(
     req: NextApiRequest,
     res: NextApiResponse<ResData>,
     data: {
@@ -66,97 +64,86 @@ function createCategory(
     const { departmentName = '', categoryName = '' } = data;
 
     if (!departmentName) {
-        res.status(200).json({ code: -1, message: '部门名称为空，创建失败' });
+        res.status(200).json({ code: -1, message: '部门名称为空，删除失败' });
         return;
     }
 
     if (!categoryName) {
-        res.status(200).json({ code: -1, message: '分类名称为空，创建失败' });
+        res.status(200).json({ code: -1, message: '分类名称为空，删除失败' });
         return;
     }
 
     const index = navData.findIndex(({ name }) => name === departmentName);
 
     if (index === -1) {
-        res.status(200).json({ code: -1, message: '部门不存在' });
+        res.status(200).json({ code: -1, message: '部门名称不存在，删除失败' });
         return;
     }
 
-    const { categorys } = navData[index];
-    const categoryNames = categorys.map(({ name }) => name);
+    const categoryIndex = navData[index].categorys.findIndex(({ name }) => name === categoryName);
 
-    if (categoryNames.includes(categoryName)) {
-        res.status(200).json({ code: -1, message: '分类名称已存在，创建失败' });
+    if (categoryIndex === -1) {
+        res.status(200).json({ code: -1, message: '分类名称不存在，删除失败' });
         return;
     }
 
-    navData[index].categorys.push({ name: categoryName, infos: [] });
+    navData[index].categorys.splice(categoryIndex, 1);
 
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
-    res.status(200).json({ code: 0, message: '创建成功' });
+    res.status(200).json({ code: 0, message: '删除成功' });
 }
 
-function createNav(
+function deleteNav(
     req: NextApiRequest,
     res: NextApiResponse<ResData>,
     data: {
         departmentName?: string;
         categoryName?: string;
         navName?: string;
-        navUrl?: string;
-        navUrls?: Array<{ env: string; url: string }>;
     },
 ) {
-    const { departmentName = '', categoryName = '', navName, navUrl, navUrls = [] } = data;
+    const { departmentName = '', categoryName = '', navName } = data;
 
     if (!departmentName) {
-        res.status(200).json({ code: -1, message: '部门名称为空，创建失败' });
+        res.status(200).json({ code: -1, message: '部门名称为空，删除失败' });
         return;
     }
 
     if (!categoryName) {
-        res.status(200).json({ code: -1, message: '分类名称为空，创建失败' });
+        res.status(200).json({ code: -1, message: '分类名称为空，删除失败' });
         return;
     }
 
     if (!navName) {
-        res.status(200).json({ code: -1, message: '导航名称为空，创建失败' });
-        return;
-    }
-
-    if (!navUrl) {
-        res.status(200).json({ code: -1, message: '导航链接为空，创建失败' });
+        res.status(200).json({ code: -1, message: '导航名称为空，删除失败' });
         return;
     }
 
     const index = navData.findIndex(({ name }) => name === departmentName);
 
     if (index === -1) {
-        res.status(200).json({ code: -1, message: '部门不存在' });
+        res.status(200).json({ code: -1, message: '部门名称不存在，删除失败' });
         return;
     }
 
-    const { categorys } = navData[index];
-    const categoryIndex = categorys.findIndex(({ name }) => name === categoryName);
+    const categoryIndex = navData[index].categorys.findIndex(({ name }) => name === categoryName);
 
     if (categoryIndex === -1) {
-        res.status(200).json({ code: -1, message: '分类不存在' });
+        res.status(200).json({ code: -1, message: '分类名称不存在，删除失败' });
         return;
     }
 
-    const createNavData: any = {
-        name: navName,
-        url: navUrl,
-    };
+    const navIndex = navData[index].categorys[categoryIndex].infos.findIndex(({ name }) => name === navName);
 
-    if (navUrls && navUrls.length > 0) {
-        createNavData.urls = navUrls;
+    if (navIndex === -1) {
+        res.status(200).json({ code: -1, message: '导航名称不存在，删除失败' });
+        return;
     }
 
-    navData[index].categorys[categoryIndex].infos.push(createNavData);
+    navData[index].categorys[categoryIndex].infos.splice(navIndex, 1);
 
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
-    res.status(200).json({ code: 0, message: '创建成功' });
+    res.status(200).json({ code: 0, message: '删除成功' });
 }
