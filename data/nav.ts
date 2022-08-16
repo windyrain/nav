@@ -23,4 +23,8 @@ export function getJsonData() {
     return jsonData;
 }
 
+export function getNavData() {
+    return navData;
+}
+
 export default navData;

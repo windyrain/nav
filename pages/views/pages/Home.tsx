@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import navData from '../../../data/nav';
+import navData, { getNavData } from '../../../data/nav';
 import emitter from '../../../emitter';
 import CascadeDropDown from '../components/CascadeDropDown';
 import NavItem from '../components/NavItem';
@@ -9,9 +9,9 @@ import styles from './Home.module.css';
 
 type Department = keyof typeof navData | '';
 
-const keys = Object.keys(navData);
-
 const Home: NextPage = () => {
+    const navData = getNavData();
+    const keys = Object.keys(navData);
     const [department, setDepartment] = useState<Department>('');
 
     useEffect(() => {
