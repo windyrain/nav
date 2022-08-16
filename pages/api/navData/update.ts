@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import navData from '../../../data/data.json';
+import { getJsonData, updateNavData } from '../../../data/nav';
 import { DATA_TYPE } from './type';
 
 interface UpdateInfo {
@@ -55,6 +55,7 @@ function updateDepartment(
         updateInfo?: UpdateInfo;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName, updateInfo } = data;
 
     if (!departmentName) {
@@ -77,6 +78,7 @@ function updateDepartment(
 
     navData[departmentIndex].name = newDepartmentName;
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '更新成功' });
@@ -91,6 +93,7 @@ function updateCategory(
         updateInfo?: UpdateInfo;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '', updateInfo } = data;
 
     if (!updateInfo || !updateInfo.departmentName || !updateInfo.categoryName) {
@@ -124,6 +127,7 @@ function updateCategory(
 
     navData[index].categorys[categoryIndex].name = updateInfo.categoryName;
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '更新成功' });
@@ -139,6 +143,7 @@ function updateNav(
         updateInfo?: UpdateInfo;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '', navName, updateInfo } = data;
 
     if (
@@ -199,6 +204,7 @@ function updateNav(
 
     navData[index].categorys[categoryIndex].infos[navIndex] = updateNavData;
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '更新成功' });

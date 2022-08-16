@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import navData from '../../../data/data.json';
+import { getJsonData, updateNavData } from '../../../data/nav';
 import { DATA_TYPE } from './type';
 
 type ReqBody = {
@@ -41,6 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function createDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, departmentName: string = '') {
+    const navData = getJsonData();
     const departments = navData.map((item) => item.name);
 
     if (!departmentName) {
@@ -57,6 +58,7 @@ function createDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, de
 
     navData.push({ name: departmentName, categorys: [] });
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });
@@ -70,6 +72,7 @@ function createCategory(
         categoryName?: string;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '' } = data;
 
     if (!departmentName) {
@@ -99,6 +102,7 @@ function createCategory(
 
     navData[index].categorys.push({ name: categoryName, infos: [] });
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });
@@ -115,6 +119,7 @@ function createNav(
         navUrls?: Array<{ env: string; url: string }>;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '', navName, navUrl, navUrls = [] } = data;
 
     if (!departmentName) {
@@ -163,6 +168,7 @@ function createNav(
 
     navData[index].categorys[categoryIndex].infos.push(createNavData);
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });

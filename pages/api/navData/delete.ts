@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import navData from '../../../data/data.json';
+import { getJsonData, updateNavData } from '../../../data/nav';
 import { DATA_TYPE } from './type';
 
 type ReqBody = {
@@ -39,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 }
 
 function deleteDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, departmentName: string = '') {
+    const navData = getJsonData();
     const departmentIndex = navData.findIndex(({ name }) => name === departmentName);
 
     if (departmentIndex === -1) {
@@ -48,6 +49,7 @@ function deleteDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, de
 
     navData.splice(departmentIndex, 1);
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '删除成功' });
@@ -61,6 +63,7 @@ function deleteCategory(
         categoryName?: string;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '' } = data;
 
     if (!departmentName) {
@@ -89,6 +92,7 @@ function deleteCategory(
 
     navData[index].categorys.splice(categoryIndex, 1);
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '删除成功' });
@@ -103,6 +107,7 @@ function deleteNav(
         navName?: string;
     },
 ) {
+    const navData = getJsonData();
     const { departmentName = '', categoryName = '', navName } = data;
 
     if (!departmentName) {
@@ -143,6 +148,7 @@ function deleteNav(
 
     navData[index].categorys[categoryIndex].infos.splice(navIndex, 1);
 
+    updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '删除成功' });
