@@ -17,7 +17,15 @@ export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn'
 
 export const getStaticProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
-    const { data } = await res.json();
+
+    let data = {};
+
+    try {
+        let result = await res.json();
+        data = result.data;
+    } catch (e) {
+        console.log('请求出错');
+    }
 
     return {
         props: { data: data as NavData }, // will be passed to the page component as props
