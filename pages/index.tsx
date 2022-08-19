@@ -15,13 +15,13 @@ type NavData = Record<
 const dev = process.env.NODE_ENV !== 'production';
 export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn';
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
 
     let data = {};
 
     try {
-        let result = await res.json();
+        const result = await res.json();
         data = result.data;
     } catch (e) {
         console.log('请求出错');
@@ -32,7 +32,7 @@ export const getStaticProps = async () => {
     };
 };
 
-const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
     const navData = props.data;
     const keys = Object.keys(navData || {});
     const [department, setDepartment] = useState<Department>('');
@@ -54,7 +54,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         });
     }, []);
 
-    if (!navData) return null;
+    if (!navData || keys.length === 0) return null;
 
     return (
         <div className={styles.container}>

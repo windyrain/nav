@@ -30,7 +30,7 @@ export function updateNavData(data: NavJSONData) {
     data.map(({ name, categorys }) => {
         navData[name] = categorys;
     });
-    fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
+    fs.writeFileSync('data/data.json', JSON.stringify(data, null, 4));
 }
 
 export function getJsonData() {
