@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getJsonData, updateNavData } from '../../../data/nav';
+import { getJsonData, updateNavData } from './query';
 import { DATA_TYPE } from './type';
 
 type ReqBody = {
@@ -59,7 +58,6 @@ function createDepartment(req: NextApiRequest, res: NextApiResponse<ResData>, de
     navData.push({ name: departmentName, categorys: [] });
 
     updateNavData(navData);
-    fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });
 }
@@ -103,7 +101,6 @@ function createCategory(
     navData[index].categorys.push({ name: categoryName, infos: [] });
 
     updateNavData(navData);
-    fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });
 }
@@ -169,7 +166,6 @@ function createNav(
     navData[index].categorys[categoryIndex].infos.push(createNavData);
 
     updateNavData(navData);
-    fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
 
     res.status(200).json({ code: 0, message: '创建成功' });
 }

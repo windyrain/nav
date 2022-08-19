@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getJsonData, updateNavData } from '../../../data/nav';
+import { getJsonData, updateNavData } from './query';
 import { DATA_TYPE } from './type';
 
 type ReqBody = {

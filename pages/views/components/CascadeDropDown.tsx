@@ -1,10 +1,9 @@
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import styles from './CascadeDropDown.module.css';
 import Image from 'next/image';
-import departmentData from '../../../data/department';
 import emitter from '../../../emitter';
 
-const CascadeDropDown = () => {
+const CascadeDropDown = (props: { departmentData: string[] }) => {
     const [isShowItems, setIsShowItem] = useState<boolean>(false);
     const [department, setDepartment] = useState<string>('');
 
@@ -34,7 +33,7 @@ const CascadeDropDown = () => {
             </div>
             {isShowItems && (
                 <div className={styles.selectItemsContainer}>
-                    {departmentData.children.map((name) => {
+                    {props.departmentData.map((name) => {
                         return (
                             <div className={styles.selectItem} key={name} onClick={handleDepartmentClick}>
                                 {name}
