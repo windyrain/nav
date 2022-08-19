@@ -15,7 +15,7 @@ type NavData = Record<
 const dev = process.env.NODE_ENV !== 'production';
 export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn';
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
     const { data } = await res.json();
 
@@ -24,7 +24,7 @@ export const getServerSideProps = async () => {
     };
 };
 
-const Home = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
+const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const navData = props.data;
     const keys = Object.keys(navData || {});
     const [department, setDepartment] = useState<Department>('');
