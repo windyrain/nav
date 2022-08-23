@@ -193,16 +193,16 @@ function updateNav(
         return;
     }
 
-    const updateNavData: any = {
+    const updateNavDataParams: any = {
         name: updateInfo.navName,
         url: updateInfo.navUrl,
     };
 
     if (updateInfo.navUrls && updateInfo.navUrls.length > 0) {
-        updateNavData.urls = updateInfo.navUrls;
+        updateNavDataParams.urls = updateInfo.navUrls;
     }
 
-    navData[index].categorys[categoryIndex].infos[navIndex] = updateNavData;
+    navData[index].categorys[categoryIndex].infos[navIndex] = updateNavDataParams;
 
     updateNavData(navData);
     fs.writeFileSync('data/data.json', JSON.stringify(navData, null, 4));
