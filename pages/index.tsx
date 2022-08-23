@@ -15,7 +15,7 @@ type NavData = Record<
 const dev = process.env.NODE_ENV !== 'production';
 export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn';
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
 
     let data = {};
@@ -32,26 +32,42 @@ export const getServerSideProps = async () => {
     };
 };
 
-const Home = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
-    const navData = props.data;
-    const keys = Object.keys(navData || {});
+const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+    const [navData, setNavData] = useState<NavData>(props.data);
+    const keys = Object.keys(navData);
     const [department, setDepartment] = useState<Department>('');
 
     useEffect(() => {
-        const func = (department: string) => {
-            if (keys.includes(department)) {
-                setDepartment(department as Department);
-            } else {
-                setDepartment('前端');
+        async function fetchData() {
+            const res = await fetch(`${server}/api/navData/query`);
+
+            let data = {};
+
+            try {
+                const result = await res.json();
+                data = result.data;
+
+                setNavData(data);
+
+                const func = (department: string) => {
+                    if (Object.keys(data).includes(department)) {
+                        setDepartment(department as Department);
+                    } else {
+                        setDepartment('前端');
+                    }
+                };
+
+                const text = localStorage.getItem('@nav/deprtment') || '请选择';
+                func(text);
+
+                emitter.on('departmentChange', (department: string) => {
+                    func(department);
+                });
+            } catch (e) {
+                console.log('请求出错');
             }
-        };
-
-        const text = localStorage.getItem('@nav/deprtment') || '请选择';
-        func(text);
-
-        emitter.on('departmentChange', (department: string) => {
-            func(department);
-        });
+        }
+        fetchData();
     }, []);
 
     if (!navData || keys.length === 0) return null;
@@ -61,7 +77,7 @@ const Home = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
             <Head>
                 <title>凯叔 - 导航</title>
                 <meta name="description" content="开启一天的愉快工作" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/next-assets/favicon.ico" />
             </Head>
             <main className={styles.main}>
                 <div className={styles.topContainer}>

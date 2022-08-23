@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { customImageLoader } from '../../../loader';
 import styles from './NavItem.module.css';
 
 interface Props {
@@ -27,7 +28,15 @@ const NavItem = ({ url, name, urls }: Props) => {
         >
             <div className={styles.selectContainer}>
                 <h2>{name}</h2>
-                {urls && urls.length > 0 && <Image src="/dropdown.svg" alt="下拉" width={20} height={20} />}
+                {urls && urls.length > 0 && (
+                    <Image
+                        src="/next-assets/dropdown.svg"
+                        alt="下拉"
+                        width={20}
+                        height={20}
+                        loader={customImageLoader}
+                    />
+                )}
             </div>
             {isShowItems && urls && urls.length > 0 && (
                 <div className={styles.selectItemsContainer}>

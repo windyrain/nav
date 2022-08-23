@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import styles from './CascadeDropDown.module.css';
 import Image from 'next/image';
 import emitter from '../../../emitter';
+import { customImageLoader } from '../../../loader';
 
 const CascadeDropDown = (props: { departmentData: string[] }) => {
     const [isShowItems, setIsShowItem] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const CascadeDropDown = (props: { departmentData: string[] }) => {
         >
             <div className={styles.selectContainer}>
                 {department}
-                <Image src="/dropdown.svg" alt="下拉" width={20} height={20} />
+                <Image src="/next-assets/dropdown.svg" alt="下拉" width={20} height={20} loader={customImageLoader} />
             </div>
             {isShowItems && (
                 <div className={styles.selectItemsContainer}>

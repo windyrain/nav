@@ -36,3 +36,5 @@ yarn-error.log*
 
 # data
 data/data.json
+
+extension
