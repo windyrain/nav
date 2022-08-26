@@ -76,13 +76,13 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <div className={styles.container}>
             <Head>
                 <title>凯叔 - 导航</title>
-                <meta name="description" content="开启一天的愉快工作" />
+                <meta name="description" content="让工作更高效" />
                 <link rel="icon" href="/next-assets/favicon.ico" />
             </Head>
             <main className={styles.main}>
                 <div className={styles.topContainer}>
                     <h1 className={styles.title}>凯叔导航</h1>
-                    <p className={styles.description}>开启一天的愉快工作</p>
+                    <p className={styles.description}>让工作更高效</p>
                     <CascadeDropDown departmentData={keys} />
                 </div>
                 {department !== '' &&
