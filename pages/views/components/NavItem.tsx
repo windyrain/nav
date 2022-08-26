@@ -18,9 +18,9 @@ const NavItem = ({ url, name, urls }: Props) => {
     return (
         <a
             href={url}
-            className={styles.card}
+            className={isShowItems ? styles.cardHover : styles.card}
             key={name}
-            onTouchStart={() => setIsShowItem(true)}
+            onClick={() => setIsShowItem(false)}
             onMouseEnter={() => setIsShowItem(true)}
             onMouseLeave={() => setIsShowItem(false)}
             target="_blank"
@@ -48,6 +48,7 @@ const NavItem = ({ url, name, urls }: Props) => {
                                 href={url}
                                 target="_blank"
                                 rel="noreferrer"
+                                onClick={() => setIsShowItem(false)}
                             >
                                 {env}
                             </a>
