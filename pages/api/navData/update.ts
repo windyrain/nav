@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
 import { getJsonData, updateNavData } from './query';
 import { DATA_TYPE } from './type';
 
@@ -27,6 +29,13 @@ type ResData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResData>) {
+    const session = await unstable_getServerSession(req, res, authOptions);
+
+    if (!session) {
+        res.status(401).json({ code: -1, message: '无访问权限，请先登录' });
+        return;
+    }
+
     const { type, departmentName, categoryName, navName, updateInfo } = req.body as ReqBody;
 
     if (typeof type === 'undefined') {
