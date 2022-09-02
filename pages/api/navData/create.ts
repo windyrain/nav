@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { unstable_getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]';
+import { getToken } from 'next-auth/jwt';
 import { getJsonData, updateNavData } from './query';
 import { DATA_TYPE } from './type';
 
@@ -21,9 +20,9 @@ type ResData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResData>) {
-    const session = await unstable_getServerSession(req, res, authOptions);
+    const token = await getToken({ req, raw: true });
 
-    if (!session) {
+    if (!token) {
         res.status(401).json({ code: -1, message: '无访问权限，请先登录' });
         return;
     }
