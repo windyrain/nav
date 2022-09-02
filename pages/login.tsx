@@ -5,9 +5,6 @@ import { getSession, signIn } from 'next-auth/react';
 import styles from '../styles/page/login.module.scss';
 import { md5Password } from '../libs/auth';
 
-const dev = process.env.NODE_ENV !== 'production';
-export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn';
-
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -30,11 +27,13 @@ export default function Login() {
         const result = await signIn('credentials', {
             username,
             password: secretPassowrd,
-            callbackUrl: server,
+            redirect: false,
         });
 
         if (result?.error) {
             setLoginError(result?.error);
+        } else {
+            router.replace('/');
         }
     };
 
