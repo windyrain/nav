@@ -5,15 +5,13 @@ import emitter from '../emitter';
 import CascadeDropDown from './views/components/CascadeDropDown';
 import NavItem from './views/components/NavItem';
 import styles from './style.module.css';
+import { server } from '../constants';
 
 type Department = string;
 type NavData = Record<
     string,
     Array<{ name: string; infos: Array<{ name: string; url: string; urls?: Array<{ env: string; url: string }> }> }>
 >;
-
-const dev = process.env.NODE_ENV !== 'production';
-export const server = dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn';
 
 export const getStaticProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);

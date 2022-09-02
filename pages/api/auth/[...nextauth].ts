@@ -1,8 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { server } from '../../../constants';
 import { getJsonData } from '../user/query';
-
-const dev = process.env.NODE_ENV !== 'production';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -34,7 +33,7 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    secret: dev ? 'http://localhost:3000' : 'https://nav.oneadvise.cn',
+    secret: server,
 };
 
 export default NextAuth(authOptions);
