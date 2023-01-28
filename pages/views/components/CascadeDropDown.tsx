@@ -1,25 +1,27 @@
-import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
 import styles from './CascadeDropDown.module.css';
 import Image from 'next/image';
-import emitter from '../../../emitter';
 import { customImageLoader } from '../../../loader';
+import useServerStore from '../../../store';
 
 const CascadeDropDown = (props: { departmentData: string[] }) => {
     const [isShowItems, setIsShowItem] = useState<boolean>(false);
-    const [department, setDepartment] = useState<string>('');
+    const { department, isServer, changeDepartment } = useServerStore(({ department, isServer, changeDepartment }) => ({
+        department,
+        isServer,
+        changeDepartment,
+    }));
 
-    useEffect(() => {
-        const text = localStorage.getItem('@nav/deprtment') || '请选择';
-        setDepartment(text);
-    }, []);
+    const handleDepartmentClick = useCallback(
+        (e: SyntheticEvent<HTMLDivElement>) => {
+            const text = e.currentTarget.innerHTML;
+            changeDepartment(text);
+            setIsShowItem(false);
+        },
+        [changeDepartment],
+    );
 
-    const handleDepartmentClick = useCallback((e: SyntheticEvent<HTMLDivElement>) => {
-        const text = e.currentTarget.innerHTML;
-        setDepartment(text);
-        localStorage.setItem('@nav/deprtment', text);
-        emitter.emit('departmentChange', text);
-        setIsShowItem(false);
-    }, []);
+    if (isServer) return null;
 
     return (
         <div
@@ -29,7 +31,7 @@ const CascadeDropDown = (props: { departmentData: string[] }) => {
             onMouseLeave={() => setIsShowItem(false)}
         >
             <div className={styles.selectContainer}>
-                {department}
+                {department || '请选择'}
                 <Image src="/next-assets/dropdown.svg" alt="下拉" width={20} height={20} loader={customImageLoader} />
             </div>
             {isShowItems && (

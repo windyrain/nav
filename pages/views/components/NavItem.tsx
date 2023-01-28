@@ -1,30 +1,43 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { Center, Space, Text } from '@mantine/core';
+import { IconTrash, IconEdit } from '@tabler/icons';
 import { customImageLoader } from '../../../loader';
 import styles from './NavItem.module.css';
+import { openConfirmModal } from '@mantine/modals';
+import { useClientStore } from '../../../store';
 
 interface Props {
+    categoryName?: string;
     url: string;
     name: string;
     urls?: Array<{
         env: string;
         url: string;
     }>;
+    isEdit?: boolean;
 }
 
-const NavItem = ({ url, name, urls }: Props) => {
+const NavItem = ({ categoryName, url, name, urls, isEdit }: Props) => {
     const [isShowItems, setIsShowItem] = useState<boolean>(false);
+    const { department, deleteNavData, fetchNavData } = useClientStore(
+        ({ department, deleteNavData, fetchNavData }) => ({
+            department,
+            deleteNavData,
+            fetchNavData,
+        }),
+    );
 
     return (
-        <a
-            href={url}
+        <div
             className={isShowItems ? styles.cardHover : styles.card}
             key={name}
-            onClick={() => setIsShowItem(false)}
+            onClick={() => {
+                setIsShowItem(false);
+                window.open(url, '_blank');
+            }}
             onMouseEnter={() => setIsShowItem(true)}
             onMouseLeave={() => setIsShowItem(false)}
-            target="_blank"
-            rel="noreferrer"
         >
             <div className={styles.selectContainer}>
                 <h2>{name}</h2>
@@ -38,7 +51,7 @@ const NavItem = ({ url, name, urls }: Props) => {
                     />
                 )}
             </div>
-            {isShowItems && urls && urls.length > 0 && (
+            {isShowItems && !isEdit && urls && urls.length > 0 && (
                 <div className={styles.selectItemsContainer}>
                     {urls.map(({ env, url }, i) => {
                         return (
@@ -56,7 +69,51 @@ const NavItem = ({ url, name, urls }: Props) => {
                     })}
                 </div>
             )}
-        </a>
+            {isShowItems && isEdit && (
+                <Center mt="md">
+                    <IconTrash
+                        size={18}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openConfirmModal({
+                                title: '删除导航',
+                                centered: true,
+                                children: <Text size="sm">确认删除这个导航吗？</Text>,
+                                labels: { confirm: '确认', cancel: '饶他一命' },
+                                confirmProps: { color: 'red' },
+                                onConfirm: async () => {
+                                    const result = await deleteNavData({
+                                        departmentName: department,
+                                        categoryName: categoryName,
+                                        navName: name,
+                                    });
+
+                                    if (result) fetchNavData();
+                                },
+                            });
+                        }}
+                    />
+                    <Space w="md" />
+                    <IconEdit
+                        size={18}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            useClientStore.setState({
+                                isShowForm: 'update',
+                                formData: {
+                                    department,
+                                    category: categoryName,
+                                    name,
+                                    url,
+                                },
+                            });
+                        }}
+                    />
+                </Center>
+            )}
+        </div>
     );
 };
 
