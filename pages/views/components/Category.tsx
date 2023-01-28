@@ -3,7 +3,7 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { ICategory } from '../../../types';
 import styles from './Category.module.css';
 import NavItem from './NavItem';
-import { SortableItem } from './SortItem';
+import SortableItem from './SortItem';
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { useClientStore } from '../../../store';
@@ -16,7 +16,7 @@ interface CategoryProps extends ICategory {
 export type Items = Array<{ id: number; name: string; url: string; urls?: Array<{ env: string; url: string }> }>;
 
 const Category = (props: CategoryProps) => {
-    const { name, categoryIndex, infos, isEdit } = props;
+    const { name, categoryIndex, infos = [], isEdit } = props;
     const [items, setItems] = useState<Items>(infos.map((item, index) => ({ ...item, id: index })));
     const { department, sortNavData } = useClientStore(({ department, sortNavData }) => ({
         department,
