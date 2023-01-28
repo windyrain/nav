@@ -5,7 +5,9 @@ import CascadeDropDown from './views/components/CascadeDropDown';
 import styles from './style.module.css';
 import { server } from '../constants';
 import { NavData } from '../types';
+import ConfigBtn from './views/components/ConfigBtn';
 import useServerStore from '../store';
+import NavForm from './views/components/NavForm';
 import Category from './views/components/Category';
 
 export const getStaticProps = async () => {
@@ -26,11 +28,12 @@ export const getStaticProps = async () => {
 };
 
 const Home = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-    const { navData, department, isServer, setNavData } = useServerStore(
-        ({ navData, department, isServer, setNavData }) => ({
+    const { navData, department, isServer, isShowForm, setNavData } = useServerStore(
+        ({ navData, department, isServer, isShowForm, setNavData }) => ({
             navData,
             department,
             isServer,
+            isShowForm,
             setNavData,
         }),
     );
@@ -53,12 +56,18 @@ const Home = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <div className={styles.topContainer}>
                     <h1 className={styles.title}>凯叔导航</h1>
                     <p className={styles.description}>让工作更高效</p>
+                    <ConfigBtn />
                     <CascadeDropDown departmentData={keys} />
                 </div>
                 {!isServer &&
                     navData[department || '前端'].map((item, i) => {
                         return (
-                            <Category key={`category_${department}_${i}_${Date.now()}`} categoryIndex={i} {...item} />
+                            <Category
+                                key={`category_${department}_${i}_${Date.now()}`}
+                                categoryIndex={i}
+                                {...item}
+                                isEdit
+                            />
                         );
                     })}
             </main>
@@ -72,6 +81,7 @@ const Home = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
                     凯叔前端出品 - <span className={styles.know}>了解我们</span>
                 </a>
             </footer>
+            {isShowForm !== false && <NavForm />}
         </div>
     );
 };

@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error('用户不存在');
                 }
 
-                console.log(user.password, submitInfo.password);
+                // console.log(user.password, submitInfo.password);
                 const isValid = user.password === submitInfo.password;
 
                 if (!isValid) {

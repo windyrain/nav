@@ -1,7 +1,8 @@
 .card {
     position: relative;
     margin: 1rem 2rem 1rem 0;
-    padding: 1.5rem;
+    padding: 0 1.5rem;
+    height: 5rem;
     text-align: left;
     color: inherit;
     text-decoration: none;
@@ -11,12 +12,17 @@
     max-width: 300px;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cardHover {
     position: relative;
     margin: 1rem 2rem 1rem 0;
-    padding: 1.5rem;
+    padding: 0 1.5rem;
+    height: 5rem;
     text-align: left;
     color: inherit;
     text-decoration: none;
@@ -28,6 +34,10 @@
     flex-direction: column;
     color: #ffa500;
     border-color: #ffa500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card h2 {
