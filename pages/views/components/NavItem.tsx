@@ -61,7 +61,10 @@ const NavItem = ({ categoryName, url, name, urls, isEdit }: Props) => {
                                 href={url}
                                 target="_blank"
                                 rel="noreferrer"
-                                onClick={() => setIsShowItem(false)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsShowItem(false);
+                                }}
                             >
                                 {env}
                             </a>
