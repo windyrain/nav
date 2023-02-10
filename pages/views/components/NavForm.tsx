@@ -64,7 +64,7 @@ function NavForm() {
                     />
                     <Group position="right" mt="md">
                         <Button
-                            type="submit"
+                            type="button"
                             onClick={async () => {
                                 if (form.isValid()) {
                                     let result = false;

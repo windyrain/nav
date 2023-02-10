@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error('密码不正确');
                 }
 
-                return { username: user.username, id: `${Date.now()}` };
+                return { username: user.username, id: user.username };
             },
         }),
     ],
