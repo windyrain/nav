@@ -1,4 +1,4 @@
-import type { InferGetStaticPropsType } from 'next';
+import type { InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
 import CascadeDropDown from './views/components/CascadeDropDown';
@@ -10,7 +10,7 @@ import useServerStore from '../store';
 import NavForm from './views/components/NavForm';
 import Category from './views/components/Category';
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
 
     let data = {};
@@ -27,7 +27,7 @@ export const getStaticProps = async () => {
     };
 };
 
-const Home = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const { navData, department, isServer, isShowForm, setNavData } = useServerStore(
         ({ navData, department, isServer, isShowForm, setNavData }) => ({
             navData,
