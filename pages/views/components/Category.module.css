@@ -1,9 +1,14 @@
 .category {
-    margin: 1rem 0;
+    margin: 0.2rem 0 1rem 0;
     line-height: 1.5;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #fff;
+    /* color: #4a6984; */
+    color: var(--category-color);
+}
+
+.category:first-child {
+    margin: 1rem 0;
 }
 
 .grid {

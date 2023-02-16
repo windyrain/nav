@@ -1,34 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 项目名称
 
-## Getting Started
+网址导航管理工具
 
-First, run the development server:
+# 项目介绍
 
-```bash
-npm run dev
-# or
-yarn dev
+该项目是一款网址导航管理工具，主要用于管理多个部门的工具的网址导航。它是一个 B 端和 C 端同构的项目，使用的技术是 next.js、next-auth、zustand、@dnd-kit 和 mantine。它不需要数据库，可以轻松管理你的导航。
+
+# 功能特性
+
+-   支持按部门配置网址导航。
+-   支持导航的新增、删除、修改和拖拽排序。
+-   支持切换多种主题色。
+-   支持用户权限。
+
+# 技术栈
+
+-   next.js：一款基于 React 的服务端渲染框架。
+-   next-auth：一款基于 next 的权限验证库
+-   zustand：一款小巧但功能强大的状态管理库。
+-   @dnd-kit：一款支持拖拽排序的库。
+-   mantine：一款 React 组件库，用于快速构建漂亮的界面。
+
+# 项目结构
+
+-   pages
+    -   index.tsx
+    -   login.tsx
+    -   edit.tsx
+-   data
+    -   data.json
+    -   user.json
+-   ...
+
+    `pages` 目录下是页面组件。
+
+    `data` 目录下是数据相关的文件。
+
+# 如何使用
+
+1. 克隆代码到本地，进入项目目录。
+2. 新建 `data` 目录，并在其中新增 `data.json` 和 `user.json`。
+3. 在 `data.json` 中配置部门、分类和网址信息。
+4. 在 `user.json` 中配置用户信息。
+5. 运行 `yarn` 安装依赖。
+6. 运行 `npm run dev` 启动项目。
+
+# 数据文件格式
+
+data.json 的格式如下：
+
+```
+    [
+        {
+        "name": "前端",
+        "categorys": [
+            {
+                "name": "实用工具",
+                    "infos": [
+                        {
+                            "name": "图片压缩",
+                            "url": "https://tinypng.com/",
+                            "urls": [
+                                {
+                                "env": "tinypng",
+                                "url": "https://tinypng.com/"
+                                },
+                                {
+                                "env": "gif 压缩",
+                                "url": "https://docsmall.com/gif-compress"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+user.json 的格式如下：
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+    [
+        {
+        "username": "xiaofeng",
+        "password": "密码 md5"
+        }
+    ]
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# 联系我们
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+如有任何问题，请发送电子邮件至 windyrain1994@163.com。

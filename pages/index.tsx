@@ -7,13 +7,13 @@ import { server } from '../constants';
 import { NavData } from '../types';
 import useServerStore from '../store';
 import Category from './views/components/Category';
+import ColorThemeCascadeDropDown from './views/components/ColorThemeCascadeDropDown';
 
 export const getServerSideProps = async () => {
     const res = await fetch(`${server}/api/navData/query`);
 
     let data = {};
 
-    console.log('do getStaticProps');
     try {
         const result = await res.json();
         data = result.data;
@@ -54,14 +54,21 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
                 <div className={styles.topContainer}>
                     <h1 className={styles.title}>凯叔导航</h1>
                     <p className={styles.description}>让工作更高效</p>
+                    <ColorThemeCascadeDropDown />
                     <CascadeDropDown departmentData={keys} />
                 </div>
-                {!isServer &&
-                    navData[department || '前端'].map((item, i) => {
-                        return (
-                            <Category key={`category_${department}_${i}_${Date.now()}`} categoryIndex={i} {...item} />
-                        );
-                    })}
+                <div>
+                    {!isServer &&
+                        navData[department || '前端'].map((item, i) => {
+                            return (
+                                <Category
+                                    key={`category_${department}_${i}_${Date.now()}`}
+                                    categoryIndex={i}
+                                    {...item}
+                                />
+                            );
+                        })}
+                </div>
             </main>
 
             <footer className={styles.footer}>

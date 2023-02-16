@@ -53,14 +53,14 @@ const Category = (props: CategoryProps) => {
 
     if (!isEdit) {
         return (
-            <div>
+            <>
                 <p className={styles.category}>{name}</p>
                 <div className={styles.grid}>
                     {items.map((subItem, i) => {
                         return <NavItem key={`${categoryIndex}_${i}`} categoryName={name} {...subItem} />;
                     })}
                 </div>
-            </div>
+            </>
         );
     }
 

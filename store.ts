@@ -51,8 +51,10 @@ interface NavState {
     };
     selectData: { label: string; value: string }[];
     department: string;
+    colorTheme: string;
     navData: NavData;
     changeDepartment: (department: string) => void;
+    changeColorTheme: (colorTheme: string) => void;
     setNavData: (navData: NavData) => void;
     fetchNavData: () => Promise<void>;
     createNavData: (params: ICreateParams) => Promise<boolean>;
@@ -69,9 +71,11 @@ const initialState: NavState = {
     isServer: true,
     isShowForm: false,
     department: '',
+    colorTheme: 'me',
     navData: {},
     selectData: [],
     changeDepartment: (department: string) => {},
+    changeColorTheme: (colorTheme: string) => {},
     setNavData: (navData: NavData) => {},
     fetchNavData: async () => {},
     createNavData: emptyAsyncFunc,
@@ -114,6 +118,11 @@ export const useClientStore = create<NavState>()(
             changeDepartment: (department) => {
                 set({
                     department,
+                });
+            },
+            changeColorTheme: (colorTheme) => {
+                set({
+                    colorTheme,
                 });
             },
             setNavData: (navData: NavData) => {
@@ -250,7 +259,7 @@ export const useClientStore = create<NavState>()(
         {
             name: '@nav',
             // ...
-            partialize: (state) => ({ department: state.department }),
+            partialize: (state) => ({ department: state.department, colorTheme: state.colorTheme }),
         },
     ),
 );

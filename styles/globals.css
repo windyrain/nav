@@ -10,8 +10,11 @@ body {
     /* background: url('https://tcdn.kaishustory.com/kstory/activity_flow/image/f5980754-cd0b-4c3b-93b9-c2bc1ee78756_info_w=2560_h=1600_s=297693.jpeg')
         no-repeat top center;
     background-size: cover; */
-    background-color: #0cbaba;
-    background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+    /* background-color: #0cbaba; */
+    /* background: linear-gradient(to bottom, #4285f4, #90a4ae); */
+    /* background: linear-gradient(to bottom, #2c3e50, #5d8aa8); */
+    background: linear-gradient(var(--bg-deg), var(--bg-start-color), var(--bg-end-color));
+
     background-repeat: no-repeat;
     color: #eee;
 }
@@ -23,4 +26,112 @@ a {
 
 * {
     box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --subtitle-color: #34495e;
+    --category-color: #335980;
+    --item-border-color: #5d8aa8;
+    --item-bg-color: #2c3e50;
+    --item-color: #fff;
+    --item-hover-border-color: #eaeaea;
+    --item-hover-bg-color: #fdb813;
+    --item-hover-color: #2c3e50;
+    --bg-deg: to bottom;
+    --bg-start-color: #1e88e5;
+    --bg-end-color: #fdd835;
+}
+
+body[data-theme='me'] {
+    --primary-color: #fff;
+    --subtitle-color: #fff;
+    --category-color: #fff;
+    --hover-color: #fdb813;
+    --bg-start-color: #1e88e5;
+    --bg-end-color: #fdd835;
+    --primary-color: #fff;
+    --subtitle-color: #fff;
+    --category-color: #fff;
+    --item-border-color: #fff;
+    --item-bg-color: transparent;
+    --item-color: #fff;
+    --item-hover-border-color: #fdb813;
+    --item-hover-bg-color: transparent;
+    --item-hover-color: #fdb813;
+    --bg-deg: 315deg;
+    --bg-start-color: #0cbaba;
+    --bg-end-color: #380036;
+}
+
+/**
+ * 专业1
+ */
+body[data-theme='chatGPT1'] {
+    --primary-color: #232f3e;
+    --subtitle-color: #354f6a;
+    --category-color: #f2f2f2;
+    --item-border-color: #0077b6;
+    --item-bg-color: #232f3e;
+    --item-color: #fff;
+    --item-hover-border-color: #ccc;
+    --item-hover-bg-color: #fca311;
+    --item-hover-color: #232f3e;
+    --bg-deg: to bottom;
+    --bg-start-color: #9eb2c2;
+    --bg-end-color: #293241;
+}
+
+/**
+ * 俏皮
+ */
+body[data-theme='chatGPT2'] {
+    --primary-color: #ff7f50;
+    --subtitle-color: #ee7f50;
+    --category-color: #dd7f50;
+    --item-border-color: #7fffd4;
+    --item-bg-color: #ff7f50;
+    --item-color: #fff;
+    --item-hover-border-color: #000;
+    --item-hover-bg-color: #ffdab9;
+    --item-hover-color: #ff7f50;
+    --bg-deg: to bottom;
+    --bg-start-color: #a5d6a7;
+    --bg-end-color: #fff59d;
+}
+
+/**
+ * 高对比度
+ */
+body[data-theme='chatGPT3'] {
+    --primary-color: #3a3a3a;
+    --subtitle-color: #4c4c4c;
+    --category-color: #6d6d6d;
+    --item-border-color: #bfbfbf;
+    --item-bg-color: #f7f7f7;
+    --item-color: #4c4c4c;
+    --item-hover-border-color: #bfbfbf;
+    --item-hover-bg-color: #3a3a3a;
+    --item-hover-color: #fff;
+    --bg-deg: to bottom;
+    --bg-start-color: #f7f7f7;
+    --bg-end-color: #e5e5e5;
+}
+
+/**
+ * 赛博朋克
+ */
+body[data-theme='chatGPT4'] {
+    --primary-color: #fff;
+    --subtitle-color: #e7e7e7;
+    --category-color: #e7e7e7;
+    --item-border-color: #e7e7e7;
+    --item-bg-color: transparent;
+    --item-color: #5c2751;
+    --item-hover-border-color: #5c2751;
+    --item-hover-bg-color: rgba(92, 39, 81, 0.1);
+    --item-hover-color: #5c2751;
+    --bg-deg: to bottom;
+    --bg-start-color: #5c2751;
+    --bg-end-color: #e7e7e7;
 }

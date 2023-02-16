@@ -1,0 +1,30 @@
+.cddContainer {
+    display: flex;
+    position: absolute;
+    right: 8rem;
+    top: 2rem;
+    cursor: pointer;
+    flex-direction: column;
+    z-index: 200;
+}
+
+.selectContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.selectItemsContainer {
+    margin-top: 0.6rem;
+}
+
+.selectItem {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0.5rem;
+}
+
+.selectItem:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
